@@ -9,9 +9,9 @@ api = Api(app)
 from db import db
 db.init_app(app)
 
-@app.route('/')
-def printi():
-    print("jhgbjhgbj")
+from resources.user_resources import UsersResource
+
+api.add_resource(UsersResource, '/api/users')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
