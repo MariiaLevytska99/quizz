@@ -9,5 +9,9 @@ api = Api(app)
 from db import db
 db.init_app(app)
 
+@@app.route('/')
+def printi():
+    print("jhgbjhgbj")
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
