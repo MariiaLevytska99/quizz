@@ -9,7 +9,7 @@ api = Api(app)
 from db import db
 db.init_app(app)
 
-@@app.route('/')
+@app.route('/')
 def printi():
     print("jhgbjhgbj")
 
