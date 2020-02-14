@@ -11,7 +11,10 @@ class UsersResource(Resource):
         for user in users:
             result.append(
                 {
-                    'username': user.username
+                    'username': user.username,
+                    'password': user.password,
+                    'salt': user.salt
+
                 }
             )
         return {'content': result}, 200
