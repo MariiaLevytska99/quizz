@@ -1,8 +1,12 @@
 import binascii
-
+import jwt
+import datetime
+import json
+import uuid
 from flask_restful import Resource
 from flask import request
 import hashlib, uuid
+from config import Config
 from models.user import User
 
 
@@ -23,6 +27,18 @@ class LoginResource(Resource):
             if stored_password == entered_password_hash:
                 return 200
             else:
-                return 400
+                return 404
         else:
-            return 400
+            return 404
+
+
+    def get (token):
+        try:
+            coded_token = token.decode('utf-8')
+            decoded = jwt.decode(coded_token, Config.SECRET_KEY, algorithms=['HS256'])
+            return 200
+        except Exception as ex:
+            return ex
+
+
+

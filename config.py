@@ -1,3 +1,6 @@
+import os
+
+
 class Config(object):
     """
     Base Configuration Class
@@ -23,4 +26,4 @@ class Config(object):
     SQLALCHEMY_POOL_TIMEOUT = 10
 
     SQLALCHEMY_ECHO = True
-    SECRET_KEY = 'quizzery'
+    SECRET_KEY = os.getenv('SECRET_KEY', 'my_precious')
