@@ -1,3 +1,5 @@
+import binascii
+
 from flask_restful import Resource
 from flask import request
 import hashlib, uuid
@@ -11,9 +13,16 @@ class LoginResource(Resource):
         password = payload.get('password')
 
         user = User.query.filter(User.username == username).first()
-        new_key = hashlib.sha512(password + user.salt).hexdigest()
+
+        salt = user.password[:64]
+        stored_password = user.password[64:]
+        entered_password = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'), salt.encode('ascii'), 100000)
+        entered_password_hash = binascii.hexlify(entered_password).decode('ascii')
+
         if user:
-            if user.password == new_key:
+            if stored_password == entered_password_hash:
                 return 200
             else:
                 return 400
+        else:
+            return 400

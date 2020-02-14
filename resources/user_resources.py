@@ -12,8 +12,7 @@ class UsersResource(Resource):
             result.append(
                 {
                     'username': user.username,
-                    'password': user.password,
-                    'salt': user.salt
+                    'password': user.password
 
                 }
             )

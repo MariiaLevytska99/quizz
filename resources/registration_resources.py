@@ -1,7 +1,9 @@
+import binascii
+
 from flask_restful import Resource
 from flask import request
 import os
-import hashlib, uuid
+import hashlib
 from db import db
 from models.user import User
 
@@ -10,11 +12,15 @@ class RegistrationResource(Resource):
         payload = request.get_json(force=True)
         password = payload.get('password')
 
-        salt = uuid.uuid4()
-        key = hashlib.sha512(password + str(salt))
+        salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
+        password_hash = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'), salt, 100000)
+        pwdhash = binascii.hexlify(password_hash)
+        key = (salt + pwdhash).decode('ascii')
 
-        new_user = User(username = payload.get('username'), email = payload.get('email'),
-                        password = key, salt = salt)
+        if User.query.filter(User.email == payload.get('email')).first():
+            return 400
+
+        new_user = User(username = payload.get('username'), email = payload.get('email'), password = key)
 
         db.session.add(new_user)
         db.session.commit()
