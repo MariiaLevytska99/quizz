@@ -18,7 +18,6 @@ class QuestionTypesResource(Resource):
 
     def put(self):
         payload = request.get_json(force=True)
-        types = QuestionType.query.all()
 
         if payload is None:
             payload = {}

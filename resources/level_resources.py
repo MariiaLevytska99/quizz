@@ -20,12 +20,12 @@ class LevelsResource(Resource):
 
     def put(self):
         payload = request.get_json(force=True)
-        levels = Level.query.all()
 
         if payload is None:
             payload = {}
 
-        new_level = Level(level_number=payload.get('level_number'), category_id=payload.get('category'), points_to_unlock=payload.get('points_need'))
+        new_level = Level(level_number=payload.get('level_number'), category_id=payload.get('category'),
+                          points_to_unlock=payload.get('points_need'))
 
         db.session.add(new_level)
         db.session.commit()

@@ -20,7 +20,6 @@ class CategoriesResource(Resource):
 
     def put(self):
         payload = request.get_json(force=True)
-        categories = Category.query.all()
 
         if payload is None:
             payload = {}

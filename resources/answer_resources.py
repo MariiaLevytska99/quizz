@@ -18,7 +18,6 @@ class AnswersResource(Resource):
 
     def put(self):
         payload = request.get_json(force=True)
-        answers = Answer.query.all()
 
         if payload is None:
             payload = {}

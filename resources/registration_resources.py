@@ -8,6 +8,7 @@ from db import db
 from sqlalchemy import or_
 from models.user import User
 
+
 class RegistrationResource(Resource):
     def put(self):
         payload = request.get_json(force=True)
@@ -18,11 +19,11 @@ class RegistrationResource(Resource):
         pwdhash = binascii.hexlify(password_hash)
         key = (salt + pwdhash).decode('ascii')
 
-        if (User.query.filter(or_(User.email == payload.get('email') , User.username == payload.get('username'))).first()):
+        if (User.query.filter(or_(User.email == payload.get('email'), User.username == payload.get('username')))
+                .first()):
             return 400
 
-        new_user = User(username = payload.get('username'), email = payload.get('email'), password = key)
+        new_user = User(username=payload.get('username'), email=payload.get('email'), password=key)
 
         db.session.add(new_user)
         db.session.commit()
-

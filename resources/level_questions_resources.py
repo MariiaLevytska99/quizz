@@ -19,7 +19,6 @@ class LevelQuestionsResource(Resource):
 
     def put(self, level_id, question_id):
         payload = request.get_json(force=True)
-        answers = LevelQuestions.query.all()
 
         if payload is None:
             payload = {}
