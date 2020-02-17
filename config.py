@@ -11,13 +11,13 @@ class Config(object):
     IS_PRODUCTION = False
     IS_STAGING = False
 
-    db_host = 'quizzdb.cophtor4sjla.us-east-1.rds.amazonaws.com:3306'
+    db_host = 'dbquiz.cophtor4sjla.us-east-1.rds.amazonaws.com:3306'
     db_user = 'admin'
     db_pass = '123456789'
-    db_name = 'quizzdb'
+    db_name = 'dbquiz'
 
 
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{}:{}@{}/{}'.format(db_user, db_pass, db_host, db_name)
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{}:{}@{}/{}?charset=utf8'.format(db_user, db_pass, db_host, db_name)
 
     SQLALCHEMY_POOL_RECYCLE = 500
     SQLALCHEMY_TRACK_MODIFICATIONS = False

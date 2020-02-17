@@ -13,7 +13,9 @@ class CategoriesResource(Resource):
                 {
                     'category': category.title
                 }
+
             )
+
         return {'content': result}, 200
 
     def put(self):
