@@ -1,8 +1,6 @@
 from flask_restful import Resource
 from flask import request
-from sqlalchemy import update, select
 from db import db
-from models import user_levels
 from models.user_levels import UserLevels
 from models.level import Level
 from models.category import Category
