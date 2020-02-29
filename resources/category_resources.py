@@ -17,7 +17,7 @@ class CategoriesResource(Resource):
 
             )
 
-        return {'content': result}, 200
+        return result, 200
 
     def post(self):
         payload = request.get_json(force=True)
