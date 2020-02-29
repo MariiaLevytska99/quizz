@@ -21,3 +21,19 @@ class CategoryLevelsResource(Resource):
             )
 
         return result
+
+    def post(self):
+        payload = request.get_json(force=True);
+        category_id = payload.get('category');
+        level = payload.get('level');
+        points = payload.get('points');
+
+        if payload is None:
+            payload = {}
+
+        new_category_level = Level(level_number=level, points_to_unlock=points, category_id=category_id);
+
+        db.session.add(new_category_level)
+        db.session.commit()
+
+        return {'message': 'Level successfully added'}, 200

@@ -10,7 +10,7 @@ from models.user import User
 
 
 class RegistrationResource(Resource):
-    def put(self):
+    def post(self):
         payload = request.get_json(force=True)
         password = payload.get('password')
 

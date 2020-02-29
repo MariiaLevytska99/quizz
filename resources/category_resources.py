@@ -11,6 +11,7 @@ class CategoriesResource(Resource):
         for category in categories:
             result.append(
                 {
+                    'id': category.category_id,
                     'category': category.title
                 }
 
@@ -18,7 +19,7 @@ class CategoriesResource(Resource):
 
         return {'content': result}, 200
 
-    def put(self):
+    def post(self):
         payload = request.get_json(force=True)
 
         if payload is None:

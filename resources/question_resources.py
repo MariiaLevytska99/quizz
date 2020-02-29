@@ -7,6 +7,7 @@ from models.level import Level
 from models.category import Category
 from models.level_questions import LevelQuestions
 from resources.level_questions_resources import LevelQuestionsResource
+from resources.question_answers_resources import QuestionAnswersResource
 
 
 class QuestionsResource(Resource):
@@ -28,7 +29,7 @@ class QuestionsResource(Resource):
             )
         return {'content': result}, 200
 
-    def put(self):
+    def post(self):
         #payload = {text, type, level_number, category_name}
         payload = request.get_json(force=True)
 
@@ -42,9 +43,14 @@ class QuestionsResource(Resource):
         #Add question to the level's questions
         category = payload.get('category')
         level_number = payload.get('level')
-        level= Level.query.join(Category).filter(Category.title == category).filter(Level.level_number == level_number)\
+        level= Level.query.filter(Level.category_id == category, Level.level_number == level_number)\
             .first()
+
         question = Question.query.order_by(Question.question_id.desc()).first()
-        LevelQuestionsResource.put(self, level.level_id, question.question_id)
+        LevelQuestionsResource.post(self, level.level_id, question.question_id)
+
+        #Add question answers
+        answers = payload.get('answers')
+        QuestionAnswersResource.post(self, answers, question.question_id)
 
         return {'message': 'Successfully added'}, 200

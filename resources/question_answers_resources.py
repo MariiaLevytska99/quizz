@@ -21,14 +21,8 @@ class QuestionAnswersResource(Resource):
             )
         return {'content': result}, 200
 
-    def put(self):
-        # payload= {[variant1, variant2, variant3 ...]}
-        payload = request.get_json(force=True)
-        answers = payload.get('answers')
-        question_id = payload.get('question')
+    def post(self, answers, question_id):
 
-        if payload is None:
-            payload = {}
 
         for answ in answers:
             answ_id = Answer.query.filter(Answer.text == answ.get('text')).first()
@@ -49,7 +43,7 @@ class QuestionAnswersResource(Resource):
 
         return {'message': 'Successfully added'}, 200
 
-    def post(self):
+    def put(self):
         payload = request.get_json(force=True)
         question_id = payload.get('question')
         selected_answer = payload.get('answer')

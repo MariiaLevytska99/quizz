@@ -1,8 +1,12 @@
 import binascii
+import traceback
+from urllib.error import HTTPError
+
 import jwt
 from flask_restful import Resource
 from flask import request
 import hashlib
+import datetime
 from config import Config
 from models.user import User
 
@@ -13,7 +17,14 @@ class LoginResource(Resource):
         username = payload.get('username')
         password = payload.get('password')
 
+        if not username or not password:
+            raise NotAuthorized()
+
+
         user = User.query.filter(User.username == username).first()
+
+        if not user:
+            raise NotAuthorized()
 
         salt = user.password[:64]
         stored_password = user.password[64:]
@@ -22,16 +33,46 @@ class LoginResource(Resource):
 
         if user:
             if stored_password == entered_password_hash:
-                return 200
-            else:
-                return 404
-        else:
-            return 404
+                return {
+                    'authToken': jwt.encode({
+                    'username': username,
+                    'user_id': user.user_id,
+                    'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24),
+                    }, 'secret', algorithm='HS256').decode(),
+                    'principal': username
+                }
 
-    def get(token):
+            else:
+                raise NotAuthorized()
+        else:
+            raise NotAuthorized()
+
+    def generateAuthToken(token):
         try:
             coded_token = token.decode('utf-8')
             decoded = jwt.decode(coded_token, Config.SECRET_KEY, algorithms=['HS256'])
             return 200
         except Exception as ex:
             return ex
+
+    def validate_token(self, user_context) -> dict:
+
+        if not user_context:
+            return 303
+
+
+        try:
+            decoded = jwt.decode(user_context, 'secret', algorithms=['HS256'], verify=True)
+        except Exception:
+            traceback.print_exc()
+            return 305
+
+        return decoded
+
+
+class NotAuthorized(HTTPError):
+
+    def __init__(self):
+        super().__init__("Unauthorized", 401)
+
+

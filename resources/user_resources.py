@@ -11,6 +11,8 @@ class UsersResource(Resource):
         for user in users:
             result.append(
                 {
+                    'id': user.user_id,
+                    'email': user.email,
                     'username': user.username,
                     'password': user.password
 

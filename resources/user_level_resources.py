@@ -5,22 +5,34 @@ from models.user_levels import UserLevels
 from models.level import Level
 from models.category import Category
 from models.user import User
+from resources.login_resources import LoginResource
 
 
 class UserLevelsResource(Resource):
     def get(self):
-        user_levels = UserLevels.query.all()
-        result = []
-        for us_lev in user_levels:
-            result.append(
-                {
-                    'username': us_lev.user.username,
-                    'category': us_lev.level.category.title,
-                    'level': us_lev.level.level_number,
-                    'score': us_lev.score
-                }
-            )
-        return {'content': result}, 200
+        token = request.get_json(force=True).get('token')
+        if not token:
+            return 404
+
+        decoded_token = LoginResource.validate_token(self,token)
+
+        if not decoded_token:
+            return 404;
+        return  decoded_token
+
+
+# decoded_token        user_levels = UserLevels.query.all()
+#         result = []
+#         for us_lev in user_levels:
+#             result.append(
+#                 {
+#                     'username': us_lev.user.username,
+#                     'category': us_lev.level.category.title,
+#                     'level': us_lev.level.level_number,
+#                     'score': us_lev.score
+#                 }
+#             )
+#         return {'content': result}, 200
 
     def put(self):
         payload = request.get_json(force=True)

@@ -11,12 +11,13 @@ class QuestionTypesResource(Resource):
         for type in types:
             result.append(
                 {
+                    'id': type.type_id,
                     'type': type.type
                 }
             )
         return {'content': result}, 200
 
-    def put(self):
+    def post(self):
         payload = request.get_json(force=True)
 
         if payload is None:
