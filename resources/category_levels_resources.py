@@ -10,25 +10,34 @@ class CategoryLevelsResource(Resource):
         category_id = request.get_json(force=True).get('category')
         user_token = request.get_json(force=True).get('token')
         user_id = LoginResource.validate_token(self, user_token).get('user_id')
+        result = []
+        result.append(
+            {
+            'id': 1,
+                'levelNumber': 1,
+                'pointsToUnlock': 0,
+                'score': 0
+            }
 
-        if(user_id):
-            levels = Level.query.filter(Level.category_id == category_id).all()
-            result = []
-            for level in levels:
-                score_level = UserLevelsResource.get(self, user_id, level.level_id)
-                score = 0
-                if score_level:
-                    score = score_level
-                result.append(
-                    {
-                        'id': level.level_id,
-                        'levelNumber': level.level_number,
-                        'pointsToUnlock': level.points_to_unlock,
-                        'score': score
-                    }
-                )
+        )
+        # if(user_id):
+        #     levels = Level.query.filter(Level.category_id == category_id).all()
+        #     result = []
+        #     for level in levels:
+        #         score_level = UserLevelsResource.get(self, user_id, level.level_id)
+        #         score = 0
+        #         if score_level:
+        #             score = score_level
+        #         result.append(
+        #             {
+        #                 'id': level.level_id,
+        #                 'levelNumber': level.level_number,
+        #                 'pointsToUnlock': level.points_to_unlock,
+        #                 'score': score
+        #             }
+        #         )
 
-            return result
+        return result
 
     def post(self):
         payload = request.get_json(force=True);
