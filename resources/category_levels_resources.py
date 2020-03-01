@@ -2,25 +2,33 @@ from flask_restful import Resource
 from flask import request
 from db import db
 from models.level import Level
-
+from resources.login_resources import LoginResource
+from resources.user_level_resources import UserLevelsResource
 
 class CategoryLevelsResource(Resource):
     def get(self):
         category_id = request.get_json(force=True).get('category')
+        user_token = request.get_json(force=True).get('token')
+        user_id = LoginResource.validate_token(self, user_token).get('user_id')
 
-        levels = Level.query.filter(Level.category_id == category_id).all()
+        if(user_id):
+            levels = Level.query.filter(Level.category_id == category_id).all()
+            result = []
+            for level in levels:
+                score_level = UserLevelsResource.get(self, user_id, level.level_id)
+                score = 0
+                if score_level:
+                    score = score_level
+                result.append(
+                    {
+                        'id': level.level_id,
+                        'levelNumber': level.level_number,
+                        'pointsToUnlock': level.points_to_unlock,
+                        'score': score
+                    }
+                )
 
-        result = []
-
-        for level in levels:
-            result.append(
-                {
-                    'level': level.level_number,
-                    'points to unlock': level.points_to_unlock
-                }
-            )
-
-        return result
+            return result
 
     def post(self):
         payload = request.get_json(force=True);

@@ -5,20 +5,25 @@ from models.user_levels import UserLevels
 from models.level import Level
 from models.category import Category
 from models.user import User
+from models.user_levels import UserLevels
 from resources.login_resources import LoginResource
 
 
 class UserLevelsResource(Resource):
-    def get(self):
-        token = request.get_json(force=True).get('token')
-        if not token:
-            return 404
+    def get(self, user_id, level_id):
 
-        decoded_token = LoginResource.validate_token(self,token)
+        score = UserLevels.query.filter(UserLevels.user_id == user_id, UserLevels.level_id == level_id).first()
+        return score
 
-        if not decoded_token:
-            return 404;
-        return  decoded_token
+        # token = request.get_json(force=True).get('token')
+        # if not token:
+        #     return 404
+        #
+        # decoded_token = LoginResource.validate_token(self,token)
+        #
+        # if not decoded_token:
+        #     return 404;
+        # return  decoded_token
 
 
 # decoded_token        user_levels = UserLevels.query.all()
