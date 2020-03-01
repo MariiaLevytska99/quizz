@@ -6,7 +6,7 @@ from resources.login_resources import LoginResource
 from resources.user_level_resources import UserLevelsResource
 
 class CategoryLevelsResource(Resource):
-    def get(self):
+    def post(self):
         category_id = request.get_json(force=True).get('category')
         user_token = request.get_json(force=True).get('token')
         user_id = LoginResource.validate_token(self, user_token).get('user_id')
@@ -29,7 +29,7 @@ class CategoryLevelsResource(Resource):
 
             return result
 
-    def post(self):
+    def put(self):
         payload = request.get_json(force=True);
         category_id = payload.get('category');
         level = payload.get('level');
