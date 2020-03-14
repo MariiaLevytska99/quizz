@@ -31,7 +31,7 @@ class CategoryLevelsResource(Resource):
 
     def put(self):
         payload = request.get_json(force=True);
-        category_id = payload.get('category');
+        category_id = payload.get('level');
         level = payload.get('level');
         points = payload.get('points');
 
