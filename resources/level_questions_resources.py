@@ -5,7 +5,7 @@ from models.level_questions import LevelQuestions
 
 
 class LevelQuestionsResource(Resource):
-    def get(self):
+    def post(self):
         payload = request.get_json(force=True)
         level_id = payload.get('level')
         questions = LevelQuestions.query.filter(LevelQuestions.level_id == level_id).all()
@@ -13,12 +13,12 @@ class LevelQuestionsResource(Resource):
         for quest in questions:
             result.append(
                 {
-                    'question': quest.question.text
+                    'text': quest.question.text
                 }
             )
         return result, 200
 
-    def post(self, level_id, question_id):
+    def get(self, level_id, question_id):
         payload = request.get_json(force=True)
 
         if payload is None:
