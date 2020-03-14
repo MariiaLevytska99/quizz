@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, abort, redirect, request
 from flask_restful import Api
 from config import Config
 
@@ -31,7 +31,7 @@ api.add_resource(AnswersResource, '/api/user/answers')
 api.add_resource(QuestionsResource, '/api/questions')
 api.add_resource(QuestionTypesResource, '/api/questions/types')
 api.add_resource(QuestionAnswersResource, '/api/questions/answers')
-api.add_resource(RegistrationResource, '/api/registration')
+api.add_resource(RegistrationResource, '/api/registr`ation')
 api.add_resource(LoginResource, '/api/login')
 api.add_resource(CategoryLevelsResource, '/api/category/levels')
 api.add_resource(LevelQuestionsResource, '/api/level/questions')
@@ -39,3 +39,4 @@ api.add_resource(RatingResources, '/api/users/rating')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
+

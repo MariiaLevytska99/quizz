@@ -16,7 +16,7 @@ class LevelQuestionsResource(Resource):
                     'question': quest.question.text
                 }
             )
-        return {'content': result}, 200
+        return result, 200
 
     def post(self, level_id, question_id):
         payload = request.get_json(force=True)
