@@ -12,6 +12,7 @@ class QuestionAnswersResource(Resource):
         answers = QuestionAnswers.query.filter(QuestionAnswers.question_id == question_id).all()
         result = []
         for ans in answers:
+
             result.append(
                 {
                     'question': ans.question.text,
@@ -22,7 +23,6 @@ class QuestionAnswersResource(Resource):
         return {'content': result}, 200
 
     def post(self, answers, question_id):
-
 
         for answ in answers:
             answ_id = Answer.query.filter(Answer.text == answ.get('text')).first()
