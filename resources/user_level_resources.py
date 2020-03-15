@@ -54,24 +54,23 @@ class UserLevelsResource(Resource):
 
     def post(self):
         payload = request.get_json(force=True)
-        level_number = payload.get('level')
-        category_name = payload.get('category')
+        level_id = payload.get('level')
+        user = payload.get('token')
         score = payload.get('score')
-        user = payload.get('user')
 
-        level = Level.query.join(Category).filter(Category.title == category_name, Level.level_number == level_number)\
-            .first()
-        user_ = User.query.filter(User.username == user).first()
+        level = Level.query.filter(Level.level_id == level_id).first()
 
-        user_level = UserLevels.query.filter(UserLevels.level_id == level.level_id, UserLevels.user_id == user_.user_id)\
-            .first()
-        if user_level:
-            user_level.score = score
-            db.session.add(user_level)
-            db.session.commit()
-        else:
-            new_user_level = UserLevels(user_id=user_.user_id, level_id=level.level_id, score=score)
-            db.session.add(new_user_level)
-            db.session.commit()
+        user_id = LoginResource.validate_token(self, user).get('user_id')
+        if (user_id):
+            user_level = UserLevels.query.filter(UserLevels.level_id == level_id, UserLevels.user_id == user_id).first()
+            if (user_level):
+                user_level.score = score
+                db.session.commit()
+            else:
+                new_user_level = UserLevels(user_id=user_id, level_id=level.level_id, score=0)
+                db.session.add(new_user_level)
+                db.session.commit()
+            return 200
+
 
 
