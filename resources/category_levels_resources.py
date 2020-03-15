@@ -27,7 +27,7 @@ class CategoryLevelsResource(Resource):
                     }
                 )
 
-            return result
+        return result
 
     def put(self):
         payload = request.get_json(force=True);

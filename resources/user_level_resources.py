@@ -13,7 +13,10 @@ class UserLevelsResource(Resource):
     def get(self, user_id, level_id):
 
         score = UserLevels.query.filter(UserLevels.user_id == user_id, UserLevels.level_id == level_id).first()
-        return score
+        if score:
+            return score.score
+        else:
+            return 0
 
         # token = request.get_json(force=True).get('token')
         # if not token:
