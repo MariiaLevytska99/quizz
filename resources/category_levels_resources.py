@@ -27,7 +27,7 @@ class CategoryLevelsResource(Resource):
                         'levelNumber': level.level_number,
                         'pointsToUnlock': level.points_to_unlock,
                         'score': score,
-                        'isBlock': (level.points_to_unlock < category_score)
+                        'isBlock': (level.points_to_unlock > category_score)
                     }
                 )
 
