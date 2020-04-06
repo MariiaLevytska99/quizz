@@ -13,9 +13,12 @@ class CategoryLevelsResource(Resource):
         if(user_id):
             levels = Level.query.filter(Level.category_id == category_id).all()
             result = []
+            category_score = 0
+
             for level in levels:
                 score_level = UserLevelsResource.get(self, user_id, level.level_id)
                 score = 0
+                category_score += score_level
                 if score_level:
                     score = score_level
                 result.append(
@@ -23,7 +26,8 @@ class CategoryLevelsResource(Resource):
                         'id': level.level_id,
                         'levelNumber': level.level_number,
                         'pointsToUnlock': level.points_to_unlock,
-                        'score': score
+                        'score': score,
+                        'isBlock': (level.points_to_unlock < category_score)
                     }
                 )
 
