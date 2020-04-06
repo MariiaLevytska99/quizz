@@ -15,8 +15,9 @@ class LevelsResource(Resource):
         if(user_id):
             user_level = UserLevels.query.filter(UserLevels.level_id == level_id, UserLevels.user_id == user_id).first()
             if(user_level):
-                user_level.score = score
-                db.session.commit()
+                if(user_level.score < score):
+                    user_level.score = score
+                    db.session.commit()
 
             return 200
 
