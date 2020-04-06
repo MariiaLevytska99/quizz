@@ -67,8 +67,9 @@ class UserLevelsResource(Resource):
         if (user_id):
             user_level = UserLevels.query.filter(UserLevels.level_id == level_id, UserLevels.user_id == user_id).first()
             if (user_level):
-                user_level.score = score
-                db.session.commit()
+                if(user_level.score < score):
+                    user_level.score = score
+                    db.session.commit()
             else:
                 new_user_level = UserLevels(user_id=user_id, level_id=level.level_id, score=0)
                 db.session.add(new_user_level)
