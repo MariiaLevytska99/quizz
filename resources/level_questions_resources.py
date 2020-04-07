@@ -25,6 +25,7 @@ class LevelQuestionsResource(Resource):
                 {
                     'id': quest.question.question_id,
                     'text': quest.question.text,
+                    'type': quest.question.type_id,
                     'answers': answers
                 }
             )
