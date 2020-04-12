@@ -34,6 +34,7 @@ class LoginResource(Resource):
         if user:
             if stored_password == entered_password_hash:
                 return {
+                    'email': user.email,
                     'authToken': jwt.encode({
                     'username': username,
                     'user_id': user.user_id,
