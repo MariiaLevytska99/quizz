@@ -1,7 +1,8 @@
 import binascii
 import hashlib
 import os
-from datetime import datetime
+
+import datetime
 
 import jwt
 from flask_restful import Resource
@@ -35,7 +36,7 @@ class UodateUser(Resource):
                 'authToken': jwt.encode({
                     'username': user.username,
                     'user_id': user.user_id,
-                    'exp': datetime.utcnow() + datetime.timedelta(hours=24),
+                    'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24),
                 }, 'secret', algorithm='HS256').decode(),
                 'principal': user.username
             }, 200
