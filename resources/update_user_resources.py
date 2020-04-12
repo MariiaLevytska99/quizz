@@ -28,6 +28,7 @@ class UodateUser(Resource):
             pwdhash = binascii.hexlify(password_hash)
             key = (salt + pwdhash).decode('ascii')
             user.password = key
+            db.session.commit()
 
             return {
                 'email': user.email,

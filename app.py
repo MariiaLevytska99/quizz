@@ -37,7 +37,7 @@ api.add_resource(LoginResource, '/api/login')
 api.add_resource(CategoryLevelsResource, '/api/category/levels')
 api.add_resource(LevelQuestionsResource, '/api/level/questions')
 api.add_resource(RatingResources, '/api/users/rating')
-api.add_resource(RatingResources, '/api/user/update')
+api.add_resource(UodateUser, '/api/user/update')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
