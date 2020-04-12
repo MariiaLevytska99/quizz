@@ -22,6 +22,7 @@ from resources.login_resources import LoginResource
 from resources.category_levels_resources import CategoryLevelsResource
 from resources.level_questions_resources import LevelQuestionsResource
 from resources.rating_resources import RatingResources
+from resources.update_user_resources import UodateUser
 
 api.add_resource(UsersResource, '/api/users')
 api.add_resource(CategoriesResource, '/api/categories')
@@ -36,6 +37,7 @@ api.add_resource(LoginResource, '/api/login')
 api.add_resource(CategoryLevelsResource, '/api/category/levels')
 api.add_resource(LevelQuestionsResource, '/api/level/questions')
 api.add_resource(RatingResources, '/api/users/rating')
+api.add_resource(RatingResources, '/api/user/update')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
