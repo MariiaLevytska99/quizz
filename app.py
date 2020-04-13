@@ -9,6 +9,8 @@ api = Api(app)
 from db import db
 db.init_app(app)
 
+from flask_mail import Mail
+mail = Mail(app)
 
 from resources.user_resources import UsersResource
 from resources.category_resources import CategoriesResource

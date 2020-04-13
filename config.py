@@ -33,8 +33,8 @@ class Config(object):
     MAIL_PORT = 465
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
-    MAIL_USERNAME = 'quizzery.quiz'
-    MAIL_PASSWORD = '4esZXdr5@quizzery'
+    MAIL_USERNAME = 'mariia.levytska99'
+    MAIL_PASSWORD = '4esZXdr5@mary123'
 
     # administrator list
-    ADMINS = ['quizzery.quiz@gmail.com']
+    ADMINS = ['mariia.levytska99@gmail.com']

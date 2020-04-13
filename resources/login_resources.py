@@ -1,18 +1,23 @@
 import binascii
+import smtplib
+import ssl
 import traceback
 from urllib.error import HTTPError
-
+from flask_mail import Message
 import jwt
 from flask_restful import Resource
 from flask import request
 import hashlib
 import datetime
+from config import  Config
+from app import mail
 from config import Config
 from models.user import User
-
+from resources.email_resource import send_email
 
 class LoginResource(Resource):
     def post(self):
+
         payload = request.get_json(force=True)
         username = payload.get('username')
         password = payload.get('password')
@@ -44,9 +49,12 @@ class LoginResource(Resource):
                 }
 
             else:
-                raise NotAuthorized()
+                return 404
         else:
-            raise NotAuthorized()
+            raise 404
+
+
+
 
     def generateAuthToken(token):
         try:
