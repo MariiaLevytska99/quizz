@@ -1,5 +1,5 @@
 import binascii
-
+from resources.email_resources import send_email
 from flask_restful import Resource
 from flask import request
 import os
@@ -27,3 +27,4 @@ class RegistrationResource(Resource):
 
         db.session.add(new_user)
         db.session.commit()
+        send_email([new_user.email])
