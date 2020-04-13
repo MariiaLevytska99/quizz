@@ -11,7 +11,7 @@ class Config(object):
     IS_PRODUCTION = False
     IS_STAGING = False
 
-    db_host = 'dbquiz3.cophtor4sjla.us-east-1.rds.amazonaws.com:3306'
+    db_host = 'dbquiz4.cophtor4sjla.us-east-1.rds.amazonaws.com:3306'
     db_user = 'admin'
     db_pass = '123456789'
     db_name = 'dbquiz'
