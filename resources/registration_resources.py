@@ -29,9 +29,9 @@ class RegistrationResource(Resource):
 
         db.session.add(new_user)
         db.session.commit()
-        send_email(new_user.email)
+        RegistrationResource.send(self,new_user.email)
 
-        def send(self, receiver_email):
+    def send(self, receiver_email):
             port = 587  # For starttls
             smtp_server = "smtp.gmail.com"
             sender_email = "quizzery.quiz@gmail.com"
