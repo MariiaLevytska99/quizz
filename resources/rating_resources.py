@@ -1,6 +1,6 @@
 from flask_restful import Resource
 from flask import request
-from sqlalchemy import func
+from sqlalchemy import func, desc
 from db import db
 from models.user import User
 from models.user_levels import UserLevels
@@ -10,7 +10,7 @@ class RatingResources(Resource):
     def get(self):
 
         user_ratings = db.session.query(UserLevels.user_id, func.sum(UserLevels.score).label("total_score"))\
-            .group_by(UserLevels.user_id).order_by("total_score").all()
+            .group_by(UserLevels.user_id).order_by(desc("total_score")).all()
 
         result = []
         position = 1
