@@ -9,7 +9,6 @@ import hashlib
 import datetime
 from config import Config
 from models.user import User
-from resources.email_resources import send_email
 
 
 class LoginResource(Resource):

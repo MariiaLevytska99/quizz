@@ -2,7 +2,6 @@ import binascii
 import smtplib
 import ssl
 
-from resources.email_resources import send_email
 from flask_restful import Resource
 from flask import request
 import os
