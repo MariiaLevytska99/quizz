@@ -9,6 +9,7 @@ import hashlib
 import datetime
 from config import Config
 from models.user import User
+from resources.email_resources import send_email
 
 
 class LoginResource(Resource):
@@ -33,6 +34,7 @@ class LoginResource(Resource):
 
         if user:
             if stored_password == entered_password_hash:
+                send_email(user.email)
                 return {
                     'email': user.email,
                     'authToken': jwt.encode({

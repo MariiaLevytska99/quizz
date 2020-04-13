@@ -27,4 +27,4 @@ class RegistrationResource(Resource):
 
         db.session.add(new_user)
         db.session.commit()
-        send_email([new_user.email])
+        send_email(new_user.email)
