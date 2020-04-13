@@ -32,14 +32,6 @@ class RegistrationResource(Resource):
 
         db.session.add(new_user)
         db.session.commit()
-        send_email(
-            subject='Welcome to Quizzery',
-            sender=Config.ADMINS[0],
-            recipients=[new_user.email],
-            text_body='We are delighted that you have decided to join Quizzery and try our knowledge of Computer\
-             Graphics. We are confident that you will only have a pleasant experience with us, \
-             learn a lot of useful information and find new friends!',
-            html_body='<h1> welcome</h1>'
-        )
+
 
 
