@@ -41,3 +41,24 @@ class UodateUser(Resource):
                 'principal': user.username
             }, 200
 
+
+
+class ResetPassword(Resource):
+    def post(self):
+        payload = request.get_json(force=True)
+        email = payload.get('email')
+
+        user = User.query.filter(User.email == email).first()
+
+        if (user):
+            salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
+            password_hash = hashlib.pbkdf2_hmac('sha512', payload.get('password').encode('utf-8'), salt, 100000)
+            pwdhash = binascii.hexlify(password_hash)
+            key = (salt + pwdhash).decode('ascii')
+            user.password = key
+            db.session.commit()
+
+            return  200
+        else:
+            return 404
+
