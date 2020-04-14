@@ -8,17 +8,16 @@ from models.user_levels import UserLevels
 
 class RatingResources(Resource):
     def get(self):
-
-        user_ratings = db.session.query(UserLevels.user_id, func.sum(UserLevels.score).label("total_score"))\
-            .group_by(UserLevels.user_id).order_by(desc("total_score")).all()
+        users = db.session.query(User.username, User.email, func.sum(UserLevels.score).label("total_score")\
+                                 ).join(UserLevels, isouter=True).group_by(User.user_id).\
+            order_by(desc("total_score")).all()
 
         result = []
         position = 1
-        for user_rating in user_ratings:
-            user = User.query.filter(User.user_id == user_rating.user_id).first()
+        for user in users:
             result.append(
                 {
-                    "score": str(user_rating.total_score),
+                    "score": str(user.total_score),
                     "username": user.username,
                     "email": user.email,
                     "position": position
@@ -27,3 +26,4 @@ class RatingResources(Resource):
             position += 1
 
         return result
+
