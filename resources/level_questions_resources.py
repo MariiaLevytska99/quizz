@@ -13,7 +13,7 @@ class LevelQuestionsResource(Resource):
         result = []
         for quest in questions:
             answersQuery = QuestionAnswers.query.filter(QuestionAnswers.question_id == quest.question.question_id).all()
-            if len(answers) > 0:
+            if len(answersQuery) > 0:
                 answers = []
                 for answ in answersQuery:
                     answers.append(
