@@ -21,8 +21,8 @@ class LevelQuestionsResource(Resource):
                         'isCorrect': answ.correct
                     }
                 )
-                if len(answ) > 0:
-                    result.append(
+            if len(answ) > 0:
+                result.append(
                     {
                         'id': quest.question.question_id,
                         'text': quest.question.text,
