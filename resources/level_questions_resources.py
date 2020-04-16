@@ -13,22 +13,23 @@ class LevelQuestionsResource(Resource):
         result = []
         for quest in questions:
             answersQuery = QuestionAnswers.query.filter(QuestionAnswers.question_id == quest.question.question_id).all()
-            answers = []
-            for answ in answersQuery:
-                answers.append(
+            if len(answers) > 0:
+                answers = []
+                for answ in answersQuery:
+                    answers.append(
+                        {
+                            'text': answ.answer.text,
+                            'isCorrect': answ.correct
+                        }
+                    )
+                result.append(
                     {
-                        'text': answ.answer.text,
-                        'isCorrect': answ.correct
+                        'id': quest.question.question_id,
+                        'text': quest.question.text,
+                        'type': quest.question.type_id,
+                        'answers': answers
                     }
                 )
-            result.append(
-                {
-                    'id': quest.question.question_id,
-                    'text': quest.question.text,
-                    'type': quest.question.type_id,
-                    'answers': answers
-                }
-            )
         return result, 200
 
     def get(self, level_id, question_id):
