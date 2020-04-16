@@ -49,9 +49,9 @@ class LoginResource(Resource):
                 }
 
             else:
-                return 404
+                return 401
         else:
-            return 404
+            return 401
 
 
 
