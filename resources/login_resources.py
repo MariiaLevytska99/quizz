@@ -7,7 +7,7 @@ from urllib.error import HTTPError
 from flask.json import jsonify
 from flask_mail import Message
 import jwt
-from flask_restful import Resource
+from flask_restful import Resource, abort
 from flask import request
 import hashlib
 import datetime
@@ -54,13 +54,10 @@ class LoginResource(Resource):
                 }
 
             else:
-                self.unauthorized()
+                abort(401)
         else:
-            self.unauthorized()
+            abort(401)
 
-    def unauthorized(self):
-        response = jsonify({'message': 'Failed'})
-        return response, 401
 
     def generateAuthToken(token):
         try:
