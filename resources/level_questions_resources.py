@@ -21,14 +21,15 @@ class LevelQuestionsResource(Resource):
                         'isCorrect': answ.correct
                     }
                 )
-            result.append(
-                {
-                    'id': quest.question.question_id,
-                    'text': quest.question.text,
-                    'type': quest.question.type_id,
-                    'answers': answers
-                }
-            )
+                if len(answ) > 0:
+                    result.append(
+                    {
+                        'id': quest.question.question_id,
+                        'text': quest.question.text,
+                        'type': quest.question.type_id,
+                        'answers': answers
+                    }
+                )
         return result, 200
 
     def get(self, level_id, question_id):
