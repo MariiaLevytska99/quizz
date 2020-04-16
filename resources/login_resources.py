@@ -3,12 +3,17 @@ import smtplib
 import ssl
 import traceback
 from urllib.error import HTTPError
+
+from flask.json import jsonify
 from flask_mail import Message
 import jwt
 from flask_restful import Resource
 from flask import request
 import hashlib
 import datetime
+
+from werkzeug.wrappers import auth
+
 from config import  Config
 from app import mail
 from config import Config
@@ -49,12 +54,13 @@ class LoginResource(Resource):
                 }
 
             else:
-                return 401
+                self.unauthorized()
         else:
-            return 401
+            self.unauthorized()
 
-
-
+    def unauthorized(self):
+        response = jsonify({'message': 'Failed'})
+        return response, 401
 
     def generateAuthToken(token):
         try:
