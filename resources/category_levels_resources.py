@@ -6,6 +6,7 @@ from db import db
 from models.level import Level
 from resources.login_resources import LoginResource
 from resources.user_level_resources import UserLevelsResource
+from models.level_questions import LevelQuestions
 
 class CategoryLevelsResource(Resource):
     def post(self):
@@ -19,19 +20,22 @@ class CategoryLevelsResource(Resource):
 
             for level in levels:
                 score_level = UserLevelsResource.get(self, user_id, level.level_id)
-                score = 0
-                category_score += score_level
-                if score_level:
-                    score = score_level
-                result.append(
-                    {
-                        'id': level.level_id,
-                        'levelNumber': level.level_number,
-                        'pointsToUnlock': level.points_to_unlock,
-                        'score': score,
-                        'isBlock': (level.points_to_unlock > category_score)
-                    }
-                )
+                questionsCount =db.session.query(LevelQuestions).filter(LevelQuestions.level_id == level.level_id).count()
+
+                if questionsCount > 0:
+                    score = 0
+                    category_score += score_level
+                    if score_level:
+                        score = score_level
+                    result.append(
+                        {
+                            'id': level.level_id,
+                            'levelNumber': level.level_number,
+                            'pointsToUnlock': level.points_to_unlock,
+                            'score': score,
+                            'isBlock': (level.points_to_unlock > category_score)
+                        }
+                    )
 
         return result
 
