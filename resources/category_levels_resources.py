@@ -1,5 +1,7 @@
 from flask_restful import Resource
 from flask import request
+from sqlalchemy import desc
+
 from db import db
 from models.level import Level
 from resources.login_resources import LoginResource
@@ -11,7 +13,7 @@ class CategoryLevelsResource(Resource):
         user_token = request.get_json(force=True).get('token')
         user_id = LoginResource.validate_token(self, user_token).get('user_id')
         if(user_id):
-            levels = Level.query.filter(Level.category_id == category_id).all()
+            levels = Level.query.filter(Level.category_id == category_id).order_by(desc("level_number")).all()
             result = []
             category_score = 0
 

@@ -47,7 +47,7 @@ class QuestionsResource(Resource):
             .first()
 
         question = Question.query.order_by(Question.question_id.desc()).first()
-        LevelQuestionsResource.post(self, level.level_id, question.question_id)
+        LevelQuestionsResource.get(self, level.level_id, question.question_id)
 
         #Add question answers
         answers = payload.get('answers')
