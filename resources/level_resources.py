@@ -12,10 +12,10 @@ class LevelsResource(Resource):
         user_token = request.get_json(force=True).get('token')
         score = request.get_json(force=True).get('score')
         user_id = LoginResource.validate_token(self, user_token).get('user_id')
-        if(user_id):
+        if user_id:
             user_level = UserLevels.query.filter(UserLevels.level_id == level_id, UserLevels.user_id == user_id).first()
-            if(user_level):
-                if(user_level.score < score):
+            if user_level:
+                if user_level.score < score:
                     user_level.score = score
                     db.session.commit()
 

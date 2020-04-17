@@ -1,24 +1,15 @@
 import binascii
-import smtplib
-import ssl
 import traceback
 from urllib.error import HTTPError
 
-from flask.json import jsonify
-from flask_mail import Message
 import jwt
 from flask_restful import Resource, abort
 from flask import request
 import hashlib
 import datetime
-
-from werkzeug.wrappers import auth
-
-from config import  Config
-from app import mail
 from config import Config
 from models.user import User
-from resources.email_resource import send_email
+
 
 class LoginResource(Resource):
     def post(self):
@@ -29,7 +20,6 @@ class LoginResource(Resource):
 
         if not username or not password:
             raise NotAuthorized()
-
 
         user = User.query.filter(User.username == username).first()
 
@@ -46,9 +36,9 @@ class LoginResource(Resource):
                 return {
                     'email': user.email,
                     'authToken': jwt.encode({
-                    'username': username,
-                    'user_id': user.user_id,
-                    'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24),
+                        'username': username,
+                        'user_id': user.user_id,
+                        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24),
                     }, 'secret', algorithm='HS256').decode(),
                     'principal': username
                 }
@@ -57,7 +47,6 @@ class LoginResource(Resource):
                 abort(401)
         else:
             abort(401)
-
 
     def generateAuthToken(token):
         try:
@@ -72,7 +61,6 @@ class LoginResource(Resource):
         if not user_context:
             return 303
 
-
         try:
             decoded = jwt.decode(user_context, 'secret', algorithms=['HS256'], verify=True)
         except Exception:
@@ -86,5 +74,3 @@ class NotAuthorized(HTTPError):
 
     def __init__(self):
         super().__init__("Unauthorized", 401)
-
-

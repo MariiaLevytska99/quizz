@@ -27,14 +27,3 @@ class Config(object):
 
     SQLALCHEMY_ECHO = True
     SECRET_KEY = os.getenv('SECRET_KEY', 'my_precious')
-
-    # email server
-    MAIL_SERVER = 'smtp.googlemail.com'
-    MAIL_PORT = 465
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = True
-    MAIL_USERNAME = 'mariia.levytska99'
-    MAIL_PASSWORD = '4esZXdr5@mary123'
-
-    # administrator list
-    ADMINS = ['mariia.levytska99@gmail.com']
